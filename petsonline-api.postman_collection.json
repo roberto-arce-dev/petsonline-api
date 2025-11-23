@@ -1,0 +1,507 @@
+{
+  "info": {
+    "name": "PetsOnline API",
+    "description": "Colección completa de Postman para PetsOnline API con Auth y Profiles",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"usuario@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"CLIENTE\",\n  \"nombre\": \"Juan P\\u00e9rez\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Registrar nuevo usuario. Roles disponibles: CLIENTE"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"usuario@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Iniciar sesión y obtener token JWT"
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "profile"
+              ]
+            },
+            "description": "Obtener información del usuario autenticado (requiere token)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users"
+              ]
+            },
+            "description": "Listar todos los usuarios del sistema (solo ADMIN)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints de autenticación (registro, login, perfil de usuario)"
+    },
+    {
+      "name": "Upload Image",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": [],
+              "description": "Imagen a subir (JPG, PNG, etc.) - Máximo 5MB"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/upload/image",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "upload",
+            "image"
+          ]
+        },
+        "description": "Sube una imagen al servidor y genera un thumbnail automáticamente"
+      },
+      "response": [
+        {
+          "name": "Upload exitoso",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "upload",
+                "image"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"Imagen subida exitosamente\",\n  \"imagen\": \"uploads/1700000000000-imagen.jpg\",\n  \"imagenThumbnail\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Upload por Entidad",
+      "item": [
+        {
+          "name": "Upload Producto Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Imagen para Producto (JPG, PNG, etc.) - Máximo 5MB"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/producto/{{id}}/upload-image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "producto",
+                "{{id}}",
+                "upload-image"
+              ]
+            },
+            "description": "Sube una imagen y la asocia al Producto especificado. Requiere autenticación."
+          },
+          "response": [
+            {
+              "name": "Upload exitoso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": []
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/producto/507f1f77bcf86cd799439011/upload-image",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "producto",
+                    "507f1f77bcf86cd799439011",
+                    "upload-image"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Imagen subida y asociada exitosamente\",\n  \"data\": {\n    \"producto\": {\n      \"_id\": \"507f1f77bcf86cd799439011\",\n      \"imagen\": \"uploads/1700000000000-imagen.jpg\",\n      \"imagenThumbnail\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\"\n    },\n    \"upload\": {\n      \"url\": \"uploads/1700000000000-imagen.jpg\",\n      \"thumbnailUrl\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\"\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Upload Mascota Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Imagen para Mascota (JPG, PNG, etc.) - Máximo 5MB"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/mascota/{{id}}/upload-image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mascota",
+                "{{id}}",
+                "upload-image"
+              ]
+            },
+            "description": "Sube una imagen y la asocia al Mascota especificado. Requiere autenticación."
+          },
+          "response": [
+            {
+              "name": "Upload exitoso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": []
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/mascota/507f1f77bcf86cd799439011/upload-image",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "mascota",
+                    "507f1f77bcf86cd799439011",
+                    "upload-image"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Imagen subida y asociada exitosamente\",\n  \"data\": {\n    \"mascota\": {\n      \"_id\": \"507f1f77bcf86cd799439011\",\n      \"imagen\": \"uploads/1700000000000-imagen.jpg\",\n      \"imagenThumbnail\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\"\n    },\n    \"upload\": {\n      \"url\": \"uploads/1700000000000-imagen.jpg\",\n      \"thumbnailUrl\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\"\n    }\n  }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Endpoints para subir y asociar imágenes a entidades específicas: Producto, Mascota"
+    },
+    {
+      "name": "Servir Imágenes",
+      "item": [
+        {
+          "name": "Get Image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3012/uploads/{{filename}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3012",
+              "path": [
+                "uploads",
+                "{{filename}}"
+              ]
+            },
+            "description": "Obtiene una imagen subida previamente"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Thumbnail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3012/uploads/thumbnails/{{filename}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3012",
+              "path": [
+                "uploads",
+                "thumbnails",
+                "{{filename}}"
+              ]
+            },
+            "description": "Obtiene un thumbnail generado automáticamente"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints para servir imágenes y thumbnails"
+    },
+    {
+      "name": "ClienteProfile (Profiles)",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cliente-profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cliente-profile",
+                "me"
+              ]
+            },
+            "description": "Obtener mi ClienteProfile (requiere rol CLIENTE)"
+          }
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Nombre Actualizado\",\n  \"telefono\": \"+51 987654321\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cliente-profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cliente-profile",
+                "me"
+              ]
+            },
+            "description": "Actualizar mi ClienteProfile (requiere rol CLIENTE)"
+          }
+        },
+        {
+          "name": "List All Profiles (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cliente-profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cliente-profile"
+              ]
+            },
+            "description": "Listar todos los ClienteProfile (requiere rol ADMIN)"
+          }
+        },
+        {
+          "name": "Get Profile by UserId (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cliente-profile/:userId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cliente-profile",
+                ":userId"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "",
+                  "description": "ID del usuario"
+                }
+              ]
+            },
+            "description": "Obtener ClienteProfile por userId (requiere rol ADMIN)"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3012/api",
+      "type": "string"
+    }
+  ]
+}
