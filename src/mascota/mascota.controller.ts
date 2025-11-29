@@ -102,6 +102,58 @@ export class MascotaController {
     return { success: true, data, total: data.length };
   }
 
+  @Get('cliente/:clienteId')
+  @ApiOperation({ summary: 'Obtener mascotas de un cliente' })
+  @ApiParam({ name: 'clienteId', description: 'ID del cliente' })
+  @ApiResponse({ status: 200, description: 'Lista de mascotas del cliente' })
+  async findByCliente(@Param('clienteId') clienteId: string) {
+    const data = await this.mascotaService.findByCliente(clienteId);
+    return { success: true, data, total: data.length };
+  }
+
+  @Get('especie/:especie')
+  @ApiOperation({ summary: 'Filtrar mascotas por especie' })
+  @ApiParam({ name: 'especie', description: 'Especie de la mascota' })
+  @ApiResponse({ status: 200, description: 'Lista de mascotas por especie' })
+  async findByEspecie(@Param('especie') especie: string) {
+    const data = await this.mascotaService.findByEspecie(especie);
+    return { success: true, data, total: data.length };
+  }
+
+  @Post('registrar')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Registrar nueva mascota' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        clienteId: { type: 'string', description: 'ID del cliente' },
+        nombre: { type: 'string', description: 'Nombre de la mascota' },
+        especie: { type: 'string', description: 'Especie (perro, gato, etc.)' },
+        raza: { type: 'string', description: 'Raza de la mascota' },
+        edad: { type: 'number', description: 'Edad en años' },
+        peso: { type: 'number', description: 'Peso en kg' }
+      },
+      required: ['clienteId', 'nombre', 'especie']
+    }
+  })
+  @ApiResponse({ status: 201, description: 'Mascota registrada exitosamente' })
+  async registrarMascota(@Body() mascotaDto: {
+    clienteId: string;
+    nombre: string;
+    especie: string;
+    raza?: string;
+    edad?: number;
+    peso?: number;
+  }) {
+    const data = await this.mascotaService.registrarMascota(mascotaDto);
+    return {
+      success: true,
+      message: 'Mascota registrada exitosamente',
+      data,
+    };
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Obtener Mascota por ID' })
   @ApiParam({ name: 'id', description: 'ID del Mascota' })

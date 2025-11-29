@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateMascotaDto } from './dto/create-mascota.dto';
 import { UpdateMascotaDto } from './dto/update-mascota.dto';
 import { Mascota, MascotaDocument } from './schemas/mascota.schema';
@@ -43,5 +43,31 @@ export class MascotaService {
     if (!result) {
       throw new NotFoundException(`Mascota con ID ${id} no encontrado`);
     }
+  }
+
+  // Métodos EP3 agregados
+  async findByCliente(clienteId: string): Promise<Mascota[]> {
+    return this.mascotaModel.find({ cliente: new Types.ObjectId(clienteId) })
+      .populate('cliente', 'nombre email telefono')
+      .sort({ nombre: 1 })
+      .exec();
+  }
+
+  async findByEspecie(especie: string): Promise<Mascota[]> {
+    return this.mascotaModel.find({ 
+      especie: { $regex: especie, $options: 'i' } 
+    })
+    .populate('cliente', 'nombre email telefono')
+    .sort({ nombre: 1 })
+    .exec();
+  }
+
+  async registrarMascota(createMascotaDto: CreateMascotaDto): Promise<Mascota> {
+    const nuevaMascota = await this.mascotaModel.create({
+      ...createMascotaDto,
+      fechaRegistro: new Date(),
+      activo: true
+    });
+    return nuevaMascota.populate('cliente', 'nombre email telefono');
   }
 }

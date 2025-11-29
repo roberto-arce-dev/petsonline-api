@@ -16,8 +16,8 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam, ApiBody, A
 import { ReservaService } from './reserva.service';
 import { CreateReservaDto } from './dto/create-reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
+import { AgendarServicioDto } from './dto/agendar-servicio.dto';
 import { UploadService } from '../upload/upload.service';
-
 @ApiTags('Reserva')
 @ApiBearerAuth('JWT-auth')
 @Controller('reserva')
@@ -99,6 +99,47 @@ export class ReservaController {
   @ApiResponse({ status: 200, description: 'Lista de Reservas' })
   async findAll() {
     const data = await this.reservaService.findAll();
+    return { success: true, data, total: data.length };
+  }
+
+  @Get('cliente/:clienteId')
+  @ApiOperation({ summary: 'Obtener reservas de un cliente' })
+  @ApiParam({ name: 'clienteId', description: 'ID del cliente' })
+  @ApiResponse({ status: 200, description: 'Lista de reservas del cliente' })
+  async findByCliente(@Param('clienteId') clienteId: string) {
+    const data = await this.reservaService.findByCliente(clienteId);
+    return { success: true, data, total: data.length };
+  }
+
+  @Get('mascota/:mascotaId')
+  @ApiOperation({ summary: 'Obtener reservas de una mascota' })
+  @ApiParam({ name: 'mascotaId', description: 'ID de la mascota' })
+  @ApiResponse({ status: 200, description: 'Historial de reservas de la mascota' })
+  async findByMascota(@Param('mascotaId') mascotaId: string) {
+    const data = await this.reservaService.findByMascota(mascotaId);
+    return { success: true, data, total: data.length };
+  }
+
+  @Post('agendar')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Agendar servicio veterinario' })
+  @ApiBody({ type: AgendarServicioDto })
+  @ApiResponse({ status: 201, description: 'Servicio agendado exitosamente' })
+  async agendarServicio(@Body() reservaDto: AgendarServicioDto) {
+    const data = await this.reservaService.agendarServicio(reservaDto);
+    return {
+      success: true,
+      message: 'Servicio agendado exitosamente',
+      data,
+    };
+  }
+
+  @Get('proximas/cliente/:clienteId')
+  @ApiOperation({ summary: 'Obtener próximas reservas del cliente' })
+  @ApiParam({ name: 'clienteId', description: 'ID del cliente' })
+  @ApiResponse({ status: 200, description: 'Lista de próximas reservas' })
+  async getProximasReservas(@Param('clienteId') clienteId: string) {
+    const data = await this.reservaService.getProximasReservas(clienteId);
     return { success: true, data, total: data.length };
   }
 
