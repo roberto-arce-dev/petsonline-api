@@ -9,6 +9,10 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
 import { ClienteProfileModule } from './cliente-profile/cliente-profile.module';
+import { MascotaModule } from './mascota/mascota.module';
+import { ReservaModule } from './reserva/reserva.module';
+import { ServicioVeterinarioModule } from './servicioveterinario/servicioveterinario.module';
+import { ProductoModule } from './producto/producto.module';
 
 @Module({
   imports: [
@@ -41,6 +45,10 @@ import { ClienteProfileModule } from './cliente-profile/cliente-profile.module';
     AuthModule,
     ClienteProfileModule,
     UploadModule,
+    MascotaModule,
+    ReservaModule,
+    ServicioVeterinarioModule,
+    ProductoModule,
   ],
   controllers: [AppController],
   providers: [
