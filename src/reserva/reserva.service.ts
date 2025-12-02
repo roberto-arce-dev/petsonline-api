@@ -169,7 +169,12 @@ export class ReservaService {
       );
     }
 
-    await this.ensureDisponibilidad(servicio, fechaReserva, reserva._id);
+    const excludeId =
+      reserva._id instanceof Types.ObjectId
+        ? reserva._id
+        : new Types.ObjectId(String(reserva._id));
+
+    await this.ensureDisponibilidad(servicio, fechaReserva, excludeId);
 
     Object.assign(reserva, updateData);
     await reserva.save();
