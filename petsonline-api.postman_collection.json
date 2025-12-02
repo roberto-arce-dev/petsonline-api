@@ -565,7 +565,63 @@
       "name": "Reserva",
       "item": [
         {
-          "name": "Mis Reservas",
+          "name": "Listar Reservas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reserva",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserva"
+              ]
+            },
+            "description": "Listar todas las reservas"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Reserva",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reserva",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserva"
+              ]
+            },
+            "description": "Crear reserva directa con el DTO completo",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": \"{{clienteId}}\",\n  \"mascotaId\": \"{{mascotaId}}\",\n  \"servicioId\": \"{{servicioId}}\",\n  \"fechaReserva\": \"2024-12-25T14:00:00Z\",\n  \"estado\": \"pendiente\",\n  \"observaciones\": \"Notas adicionales\",\n  \"imagen\": \"https://example.com/foto.jpg\",\n  \"imagenThumbnail\": \"https://example.com/thumb.jpg\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reservas del Cliente",
           "request": {
             "method": "GET",
             "header": [
@@ -587,6 +643,179 @@
               ]
             },
             "description": "Obtener reservas del cliente"
+          },
+          "response": []
+        },
+        {
+          "name": "Reservas de la Mascota",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reserva/mascota/{{mascotaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserva",
+                "mascota",
+                "{{mascotaId}}"
+              ]
+            },
+            "description": "Obtener historial de reservas de la mascota"
+          },
+          "response": []
+        },
+        {
+          "name": "Próximas Reservas del Cliente",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reserva/proximas/cliente/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserva",
+                "proximas",
+                "cliente",
+                "{{clienteId}}"
+              ]
+            },
+            "description": "Obtener próximas reservas del cliente"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Reserva por ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reserva/{{reservaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserva",
+                "{{reservaId}}"
+              ]
+            },
+            "description": "Obtener una reserva específica"
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar Reserva",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reserva/{{reservaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserva",
+                "{{reservaId}}"
+              ]
+            },
+            "description": "Actualizar una reserva existente",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": \"{{clienteId}}\",\n  \"mascotaId\": \"{{mascotaId}}\",\n  \"servicioId\": \"{{servicioId}}\",\n  \"fechaReserva\": \"2025-01-05T09:30:00Z\",\n  \"estado\": \"confirmada\",\n  \"observaciones\": \"Actualizar notas\",\n  \"imagen\": \"https://example.com/foto-actualizada.jpg\",\n  \"imagenThumbnail\": \"https://example.com/thumb-actualizado.jpg\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar Reserva",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/reserva/{{reservaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserva",
+                "{{reservaId}}"
+              ]
+            },
+            "description": "Eliminar una reserva"
+          },
+          "response": []
+        },
+        {
+          "name": "Subir Imagen de Reserva",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Imagen a asociar a la reserva"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reserva/{{reservaId}}/upload-image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserva",
+                "{{reservaId}}",
+                "upload-image"
+              ]
+            },
+            "description": "Subir una imagen a la reserva"
           },
           "response": []
         },
@@ -618,7 +847,7 @@
             "description": "Agendar servicio veterinario",
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"clienteId\": \"{{clienteId}}\",\n  \"mascotaId\": \"{{mascotaId}}\",\n  \"servicioId\": \"{{servicioId}}\",\n  \"fechaReserva\": \"2024-12-25T14:00:00\"\n}"
+              "raw": "{\n  \"clienteId\": \"{{clienteId}}\",\n  \"mascotaId\": \"{{mascotaId}}\",\n  \"servicioId\": \"{{servicioId}}\",\n  \"fechaReserva\": \"2024-12-25T14:00:00Z\",\n  \"observaciones\": \"Notas adicionales\"\n}"
             }
           },
           "response": []

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class AgendarServicioDto {
@@ -7,7 +7,7 @@ export class AgendarServicioDto {
     description: 'ID del cliente',
   })
   @IsNotEmpty()
-  @IsString()
+  @IsMongoId()
   clienteId: string;
 
   @ApiProperty({
@@ -15,7 +15,7 @@ export class AgendarServicioDto {
     description: 'ID de la mascota',
   })
   @IsNotEmpty()
-  @IsString()
+  @IsMongoId()
   mascotaId: string;
 
   @ApiProperty({
@@ -23,7 +23,7 @@ export class AgendarServicioDto {
     description: 'ID del servicio',
   })
   @IsNotEmpty()
-  @IsString()
+  @IsMongoId()
   servicioId: string;
 
   @ApiProperty({
@@ -31,7 +31,7 @@ export class AgendarServicioDto {
     description: 'Fecha y hora de la reserva',
   })
   @IsNotEmpty()
-  @IsString()
+  @IsDateString()
   fechaReserva: string;
 
   @ApiPropertyOptional({
